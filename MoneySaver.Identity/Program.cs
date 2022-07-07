@@ -3,6 +3,7 @@ using MoneySaver.System.Infrastructure;
 using MoneySaver.System.Services;
 using MoneySaver.Identity.Infrastructure;
 using MoneySaver.Identity.Services.Identity;
+using HealthChecks.UI.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -28,7 +29,9 @@ var app = builder.Build();
 //    app.UseSwaggerUI();
 //}
 
-app.MapHealthChecks("/healthz");
+app.MapHealthChecks("/healthz", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions { 
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 //app.UseAuthorization();
 

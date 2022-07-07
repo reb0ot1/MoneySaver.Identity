@@ -41,7 +41,7 @@ namespace MoneySaver.Identity.Services.Identity
 
         public async Task<Result<UserOutputModel>> Login(UserInputModel userInput)
         {
-            var user = await this.userManager.FindByEmailAsync(userInput.Email);
+             var user = await this.userManager.FindByEmailAsync(userInput.Email);
 
             if (user == null)
             {

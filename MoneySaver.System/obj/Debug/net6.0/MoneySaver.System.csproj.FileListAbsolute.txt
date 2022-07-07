@@ -1,0 +1,12 @@
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\bin\Debug\net6.0\MoneySaver.System.deps.json
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\bin\Debug\net6.0\MoneySaver.System.dll
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\bin\Debug\net6.0\ref\MoneySaver.System.dll
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\bin\Debug\net6.0\MoneySaver.System.pdb
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\obj\Debug\net6.0\MoneySaver.System.csproj.AssemblyReference.cache
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\obj\Debug\net6.0\MoneySaver.System.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\obj\Debug\net6.0\MoneySaver.System.AssemblyInfoInputs.cache
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\obj\Debug\net6.0\MoneySaver.System.AssemblyInfo.cs
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\obj\Debug\net6.0\MoneySaver.System.csproj.CoreCompileInputs.cache
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\obj\Debug\net6.0\MoneySaver.System.dll
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\obj\Debug\net6.0\ref\MoneySaver.System.dll
+C:\Projects\MoneySaverProject\MoneySaver.Identity\MoneySaver.System\obj\Debug\net6.0\MoneySaver.System.pdb
