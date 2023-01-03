@@ -22,7 +22,7 @@ namespace MoneySaver.Identity.Controllers
 
         [HttpPost]
         [Route(nameof(Register))]
-        public async Task<ActionResult<UserOutputModel>> Register(UserInputModel input)
+        public async Task<IActionResult> Register(UserInputModel input)
         {
             var result = await this.identityService.Register(input);
 
@@ -36,7 +36,7 @@ namespace MoneySaver.Identity.Controllers
 
         [HttpPost]
         [Route(nameof(Login))]
-        public async Task<ActionResult<UserOutputModel>> Login([FromBody] UserInputModel input)
+        public async Task<IActionResult> Login([FromBody] UserInputModel input)
         {
             var result = await this.identityService.Login(input);
 
@@ -45,17 +45,26 @@ namespace MoneySaver.Identity.Controllers
                 return BadRequest(result.Errors);
             }
 
-            return new UserOutputModel(result.Data.Token);
+            return Ok(result.Data);
         }
 
         [HttpPut]
         [Authorize]
         [Route(nameof(ChangePassword))]
-        public async Task<ActionResult> ChangePassword(ChangePasswordInputModel input)
-            => await this.identityService.ChangePassword(this.currentUser.UserId, new ChangePasswordInputModel
+        public async Task<IActionResult> ChangePassword(ChangePasswordInputModel input)
+        { 
+            var result = await this.identityService.ChangePassword(this.currentUser.UserId, new ChangePasswordInputModel
             {
                 CurrentPassword = input.CurrentPassword,
                 NewPassword = input.NewPassword
             });
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return this.Ok(result);
+        }
     }
 }

@@ -4,10 +4,20 @@ using MoneySaver.System.Services;
 using MoneySaver.Identity.Infrastructure;
 using MoneySaver.Identity.Services.Identity;
 using HealthChecks.UI.Client;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+              .ReadFrom.Configuration(builder.Configuration)
+              .CreateLogger();
+
 // Add services to the container.
 builder.Services.AddWebService<MoneySaver.Identity.Data.IdentityDbContext>(builder.Configuration);
+builder.Services.AddLogging(logging =>
+{
+    logging.AddSerilog(dispose: true);
+});
+
 builder.Services.AddUserStorage();
 builder.Services.AddTransient<IDataSeeder, IdentityDataSeeder>();
 builder.Services.AddTransient<IIdentityService, IdentityService>()
@@ -19,6 +29,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 
