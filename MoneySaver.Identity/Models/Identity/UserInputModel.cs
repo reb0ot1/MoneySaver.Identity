@@ -14,4 +14,4 @@ namespace MoneySaver.Identity.Models.Identity
         [Required]
         public string Password { get; set; }
     }
-}
+}   

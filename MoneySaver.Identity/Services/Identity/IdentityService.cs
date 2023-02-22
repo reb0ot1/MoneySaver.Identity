@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MoneySaver.Identity.Data.Models;
-using MoneySaver.System.Services;
+using MSSystem = MoneySaver.System.Services;
 using MoneySaver.Identity.Models.Identity;
+using System.Net.Http.Headers;
+using Microsoft.Extensions.Options;
+using MoneySaver.Identity.Models.Configuration;
 
 namespace MoneySaver.Identity.Services.Identity
 {
@@ -11,19 +14,25 @@ namespace MoneySaver.Identity.Services.Identity
 
         private readonly UserManager<User> userManager;
         private readonly ITokenGeneratorService jwtTokenGenerator;
+        private readonly IHttpClientFactory httpClientFactory;
         private readonly ILogger<IdentityService> logger;
+        private readonly UrlRoutesConfiguration routesConfig;
 
         public IdentityService(
             UserManager<User> userManager, 
             ITokenGeneratorService jwtTokenGenerator,
-            ILogger<IdentityService> logger)
+            IHttpClientFactory httpClientFactory,
+            ILogger<IdentityService> logger,
+            IOptions<UrlRoutesConfiguration> urlRoutesConfig)
         {
             this.userManager = userManager;
             this.jwtTokenGenerator = jwtTokenGenerator;
+            this.httpClientFactory = httpClientFactory;
             this.logger = logger;
+            this.routesConfig = urlRoutesConfig.Value;
         }
 
-        public async Task<Result> ChangePassword(string userId, ChangePasswordInputModel changePasswordInput)
+        public async Task<MSSystem.Result> ChangePassword(string userId, ChangePasswordInputModel changePasswordInput)
         {
             try
             {
@@ -42,8 +51,8 @@ namespace MoneySaver.Identity.Services.Identity
                 var errors = identityResult.Errors.Select(e => e.Description);
 
                 return identityResult.Succeeded
-                    ? Result.Success
-                    : Result.Failure(errors);
+                    ? MSSystem.Result.Success
+                    : MSSystem.Result.Failure(errors);
             }
             catch (Exception ex)
             {
@@ -53,7 +62,7 @@ namespace MoneySaver.Identity.Services.Identity
             }
         }
 
-        public async Task<Result<UserOutputModel>> Login(UserInputModel userInput)
+        public async Task<MSSystem.Result<UserOutputModel>> Login(UserInputModel userInput)
         {
             try
             {
@@ -82,7 +91,7 @@ namespace MoneySaver.Identity.Services.Identity
             }
         }
 
-        public async Task<Result<User>> Register(UserInputModel userInput)
+        public async Task<MSSystem.Result<User>> Register(UserInputModel userInput)
         {
             try
             {
@@ -93,12 +102,30 @@ namespace MoneySaver.Identity.Services.Identity
                 };
 
                 var identityResult = await this.userManager.CreateAsync(user, userInput.Password);
-
                 var errors = identityResult.Errors.Select(e => e.Description);
 
-                return identityResult.Succeeded ?
-                    Result<User>.SuccessWith(user) :
-                    Result<User>.Failure(errors);
+                if (identityResult.Succeeded)
+                {
+                    user = await this.userManager.FindByEmailAsync(userInput.Email);
+                    var roles = await this.userManager.GetRolesAsync(user);
+                    var userToken = this.jwtTokenGenerator.GenerateToken(user, roles);
+
+                    //TODO: Create system token which will take care for requests as the below
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"{this.routesConfig.AuthorityIrl}/api/appConfiguration/setuserconfig");
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
+
+                    var httpClient = this.httpClientFactory.CreateClient();
+                    var httpRequest = await httpClient.SendAsync(requestMessage);
+
+                    if (!httpRequest.IsSuccessStatusCode)
+                    { 
+                        this.logger.LogError("Configuration was not created for user with id [{0}]", user.Id);
+                    }
+
+                    return MSSystem.Result<User>.SuccessWith(user);
+                }
+
+                return MSSystem.Result<User>.Failure(errors);
             }
             catch (Exception ex)
             {
