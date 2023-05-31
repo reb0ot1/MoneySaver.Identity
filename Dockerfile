@@ -4,7 +4,7 @@ WORKDIR /app
 # Copy everything
 COPY . ./
 # Restore as distinct layers
-RUN dotnet restore "MoneySaver.Identity/MoneySaver.Identity.csproj"
+RUN dotnet restore "MoneySaver.Identity/MoneySaver.Identity.csproj" --configfile "./nuget.config"
 # Build and publish a release
 RUN dotnet publish "MoneySaver.Identity/MoneySaver.Identity.csproj" -c Release -o out
 

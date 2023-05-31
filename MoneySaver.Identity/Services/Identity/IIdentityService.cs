@@ -1,12 +1,11 @@
-﻿using MoneySaver.Identity.Data.Models;
-using MSSystem = MoneySaver.System.Services;
+﻿using MSSystem = MoneySaver.System.Services;
 using MoneySaver.Identity.Models.Identity;
 
 namespace MoneySaver.Identity.Services.Identity
 {
     public interface IIdentityService
     {
-        Task<MSSystem.Result<User>> Register(UserInputModel userInput);
+        Task<MSSystem.Result<bool>> Register(UserRegistrationModel userInput);
 
         Task<MSSystem.Result<UserOutputModel>> Login(UserInputModel userInput);
 

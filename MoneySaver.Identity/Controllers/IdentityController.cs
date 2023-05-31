@@ -22,7 +22,7 @@ namespace MoneySaver.Identity.Controllers
 
         [HttpPost]
         [Route(nameof(Register))]
-        public async Task<IActionResult> Register([FromBody] UserInputModel input)
+        public async Task<IActionResult> Register([FromBody] UserRegistrationModel input)
         {
             var result = await this.identityService.Register(input);
 
@@ -31,7 +31,7 @@ namespace MoneySaver.Identity.Controllers
                 return BadRequest(result.Errors);
             }
 
-            return await Login(input);
+            return Ok();
         }
 
         [HttpPost]

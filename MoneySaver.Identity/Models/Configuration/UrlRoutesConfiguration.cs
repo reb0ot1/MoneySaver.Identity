@@ -2,6 +2,6 @@
 {
     public class UrlRoutesConfiguration
     {
-        public string AuthorityIrl { get; set; }
+        public string DataApiUrl { get; set; }
     }
 }
