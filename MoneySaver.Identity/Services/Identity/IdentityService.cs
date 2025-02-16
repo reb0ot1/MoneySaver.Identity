@@ -33,7 +33,7 @@ namespace MoneySaver.Identity.Services.Identity
             this.routesConfig = urlRoutesConfig.Value;
         }
 
-        public async Task<MSSystem.Result> ChangePassword(string userId, ChangePasswordInputModel changePasswordInput)
+        public async Task<MSSystem.Result> ChangePasswordAsync(string userId, ChangePasswordInputModel changePasswordInput)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace MoneySaver.Identity.Services.Identity
             }
         }
 
-        public async Task<MSSystem.Result<UserOutputModel>> Login(UserInputModel userInput)
+        public async Task<MSSystem.Result<UserOutputModel>> LoginAsync(UserInputModel userInput)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace MoneySaver.Identity.Services.Identity
             }
         }
 
-        public async Task<MSSystem.Result<bool>> Register(UserRegistrationModel userInput)
+        public async Task<MSSystem.Result<bool>> RegisterAsync(UserRegistrationModel userInput)
         {
             try
             {

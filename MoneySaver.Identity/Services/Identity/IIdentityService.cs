@@ -5,10 +5,10 @@ namespace MoneySaver.Identity.Services.Identity
 {
     public interface IIdentityService
     {
-        Task<MSSystem.Result<bool>> Register(UserRegistrationModel userInput);
+        Task<MSSystem.Result<bool>> RegisterAsync(UserRegistrationModel userInput);
 
-        Task<MSSystem.Result<UserOutputModel>> Login(UserInputModel userInput);
+        Task<MSSystem.Result<UserOutputModel>> LoginAsync(UserInputModel userInput);
 
-        Task<MSSystem.Result> ChangePassword(string userId, ChangePasswordInputModel changePasswordInput);
+        Task<MSSystem.Result> ChangePasswordAsync(string userId, ChangePasswordInputModel changePasswordInput);
     }
 }
