@@ -8,28 +8,27 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="9.0.0" />
-	  <PackageReference Include="MoneySaver.System" Version="2.0.0" />
+    <PackageReference Include="MoneySaver.System" Version="3.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <!--<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.1" />-->
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
-	  <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
-	  <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.3" />
-	  <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.1" />
-	  <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
-	  <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
-	  <PackageReference Include="Serilog.Sinks.MariaDB" Version="1.0.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.3" />
+    <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.1" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.MariaDB" Version="1.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
-  <!--<ItemGroup>
-		<ProjectReference Include="..\..\MoneySaver.System\MoneySaver.System.csproj" />
-	</ItemGroup>-->
+<!--  <ItemGroup>-->
+<!--    <ProjectReference Include="..\..\MoneySaver.System\MoneySaver.System.csproj" />-->
+<!--  </ItemGroup>-->
 
 </Project>
