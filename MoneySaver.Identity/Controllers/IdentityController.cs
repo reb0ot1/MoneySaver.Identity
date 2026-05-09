@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace MoneySaver.Identity.Controllers
 {
+    [Route("[controller]")]
     public class IdentityController : ControllerBase
     {
         private readonly IIdentityService _identityService;

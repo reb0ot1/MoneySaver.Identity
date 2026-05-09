@@ -3,9 +3,13 @@ using MoneySaver.System.Infrastructure;
 using MoneySaver.System.Services;
 using MoneySaver.Identity.Infrastructure;
 using MoneySaver.Identity.Services.Identity;
-using HealthChecks.UI.Client;
 using Serilog;
 using MoneySaver.Identity.Models.Configuration;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Metrics;
+using OpenTelemetry;
+using OpenTelemetry.Exporter.Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,10 +37,46 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Host.UseSerilog();
+//builder.Logging.AddOpenTelemetry(logging => {
+//    logging.IncludeScopes = true;
+//    logging.IncludeFormattedMessage = true;
+//});
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService("Moneysaver.Identity"))
+    .WithMetrics(metrics =>
+    {
+        metrics
+        .AddAspNetCoreInstrumentation()
+        .AddRuntimeInstrumentation()
+        //.AddPrometheusExporter()
+        .AddHttpClientInstrumentation()
+        .AddMeter("Microsoft.AspNetCore.Hosting")
+        .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
+        // Metrics provided by System.Net libraries
+        .AddMeter("System.Net.Http")
+        .AddMeter("System.Net.NameResolution");
+        //.AddPrometheusExporter();
+
+        metrics.AddPrometheusExporter();
+    })
+    .WithTracing(tracing =>
+    {
+        tracing
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddSqlClientInstrumentation();
+
+        tracing.AddOtlpExporter();
+    });
+    //.UseOtlpExporter();
 
 var app = builder.Build();
 
+app.MapPrometheusScrapingEndpoint();
+
 app.UseWebService(app.Environment)
     .Initialize();
+
+
 
 app.Run();
